@@ -28,21 +28,19 @@ RUN apt-get update && apt-get install -y git \
 RUN source /opt/ros/noetic/setup.bash \ 
 && cd /catkin_ws/src \
 && catkin_init_workspace \
-&& git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git \
-&& git clone -b noetic-devel https://github.com/UbiquityRobotics/raspicam_node.git
+&& git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git
+
 
 # Build workspace
-# RUN source /opt/ros/noetic/setup.bash \
-# && cd /catkin_ws \
-# && catkin_make \
-# && source /catkin_ws/devel/setup.bash
-
-# COPY ./ /catkin_ws/src/move_and_turn
+RUN source /opt/ros/noetic/setup.bash \
+&& cd /catkin_ws \
+&& catkin_make \
+&& source /catkin_ws/devel/setup.bash
 
 WORKDIR /catkin_ws
 
 # Build your ROS packages
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make"
+#RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make"
 
 # Source the workspace every time a new shell is opened in the container
 RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
