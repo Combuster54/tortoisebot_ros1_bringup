@@ -29,8 +29,9 @@ RUN apt-get install -y python3-wstool \
     ninja-build \
     stow
 
-RUN mkdir ~/catkin_ws/carto_ws \
-    cd ~/catkin_ws/carto_ws \
+RUN mkdir -p /catkin_ws/carto_ws
+
+RIM cd ~/catkin_ws/carto_ws \
     wstool init src \
     wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall \
     wstool update -t src
