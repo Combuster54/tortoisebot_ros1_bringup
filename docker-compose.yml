@@ -2,8 +2,7 @@ version: '3'
 services:
 
   tortoisebot:
-    # image: tortoisebot_ros1_real_v1:latest
-    # container_name: tortoisebot-ros1
+
     build: 
       context: .
       dockerfile: tortoisebot_ros1_real
