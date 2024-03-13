@@ -40,8 +40,11 @@ RUN sudo rosdep init\
     rosdep update \
     rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-COPY ./tortoisebot/tortoisebot_slam/launch/mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/maapping.launch
-COPY ./tortoisebot/tortoisebot_slam/viz/mapping.rviz /catkin_ws/src/tortoisebot/tortoisebot_slam/viz/mapping.rviz
+# Download Tortoisebot repo
+RUN source /opt/ros/noetic/setup.bash \ 
+&& cd /catkin_ws/src \
+&& catkin_init_workspace \
+&& git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git
 
 WORKDIR /catkin_ws
 
