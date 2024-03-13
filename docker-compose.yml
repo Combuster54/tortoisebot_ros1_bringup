@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  tortoisebot:
+    # image: tortoisebot_ros1_real_v1:latest
+    # container_name: tortoisebot-ros1
+    build: 
+      context: .
+      dockerfile: tortoisebot_ros1_real
+    network_mode: host
+    ipc: host
+    privileged: true
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/mem
+    environment:
+      - ROS_HOSTNAME=master
+      - ROS_MASTER_URI=http://master:11311
+      - ROS_IPV6=on
+    command: bash -c "source /catkin_ws/devel/setup.bash && roslaunch tortoisebot_firmware bringup.launch"
