@@ -34,7 +34,7 @@ RUN sudo sh -c 'echo "deb https://packages.ubiquityrobotics.com/ubuntu/ubiquity 
 RUN source /opt/ros/noetic/setup.bash \ 
 && cd /catkin_ws/src \
 && catkin_init_workspace \
-&& git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git
+&& git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git \
 && git clone -b noetic-devel https://github.com/UbiquityRobotics/raspicam_node.git
 
 # Build workspace
