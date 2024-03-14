@@ -52,4 +52,4 @@ WORKDIR /catkin_ws
 RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
 
 # Set the entry point to start a bash shell
-#CMD ["/bin/bash"]
+ENTRYPOINT ["/bin/bash", "-c", "roslaunch tortoisebot_slam mapping.launch"]
