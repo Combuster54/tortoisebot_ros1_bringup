@@ -21,22 +21,8 @@ RUN apt-get update && apt-get install -y git \
     ros-noetic-dwa-local-planner ros-noetic-joint-state-publisher-gui \
     ros-noetic-gazebo-ros-pkgs \
     ros-noetic-compressed-image-transport \
-    ros-noetic-ira-laser-tools 
-
-RUN apt-get update 
-RUN apt-get install -y python3-wstool \
-    python3-rosdep \
-    ninja-build \
-    stow
-
-RUN mkdir -p /catkin_ws/carto_ws  \
-    && cd ~/catkin_ws/carto_ws  \
-    && wstool init src  \
-    && wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall  \
-    && wstool update -t src  \
-    && sudo rosdep init  \
-    && rosdep update  \
-    && rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+    libraspberrypi-dev libraspberrypi0 \
+    python3-dev python3-rpi.gpio
 
 # Download Tortoisebot repo
 RUN source /opt/ros/noetic/setup.bash \ 
@@ -44,13 +30,26 @@ RUN source /opt/ros/noetic/setup.bash \
 && catkin_init_workspace \
 && git clone -b noetic https://github.com/rigbetellabs/tortoisebot.git
 
-WORKDIR /catkin_ws
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_navigation
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
+RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
+RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
 
-# Build your ROS packages
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make"
+COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
+
+# Build workspace
+RUN source /opt/ros/noetic/setup.bash \
+&& cd /catkin_ws \
+&& catkin_make \
+&& source /catkin_ws/devel/setup.bash
+
+WORKDIR /catkin_ws
 
 # Source the workspace every time a new shell is opened in the container
 RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
 
 # Set the entry point to start a bash shell
-CMD ["/bin/bash"]
+#CMD ["/bin/bash"]

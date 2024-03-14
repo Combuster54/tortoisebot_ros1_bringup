@@ -39,9 +39,6 @@ RUN source /opt/ros/noetic/setup.bash \
 
 WORKDIR /catkin_ws
 
-# Build your ROS packages
-#RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd /catkin_ws; catkin_make"
-
 # Source the workspace every time a new shell is opened in the container
 RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
 
