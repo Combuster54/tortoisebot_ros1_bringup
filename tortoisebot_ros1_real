@@ -44,4 +44,5 @@ RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
 
 # Set the entry point to start a bash shell
 #CMD ["/bin/bash"]
-ENTRYPOINT ["/bin/bash", "-c", "roslaunch tortoisebot_firmware bringup.launch"]
+#ENTRYPOINT ["/bin/bash", "-c", "roslaunch tortoisebot_firmware bringup.launch"]
+RUN roslaunch tortoisebot_firmware bringup.launch
