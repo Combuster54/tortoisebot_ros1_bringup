@@ -11,7 +11,7 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-real:
-    container-name: real
+    container_name: real
     build: 
       context: .
       dockerfile: tortoisebot_ros1_real
