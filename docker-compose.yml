@@ -1,35 +1,41 @@
 version: '3'
-services:
 
-  tortoisebot:
-    build: 
-      context: .
-      dockerfile: tortoisebot_ros1_real
-    network_mode: host
-    ipc: host
-    privileged: true
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/mem
+services:
+  ros-master:
+    image: ros:noetic-ros-core
+    command: stdbuf -o L roscore
+    network_mode: "host"
     environment:
       - ROS_HOSTNAME=master
       - ROS_MASTER_URI=http://master:11311
       - ROS_IPV6=on
-    command: bash -c "source /catkin_ws/devel/setup.bash && roslaunch tortoisebot_firmware bringup.launch"
 
-  tortoisebot-slam:
+  tortoisebot-ros1-real:
+    build: 
+      context: .
+      dockerfile: tortoisebot_ros1_real
+    depends_on:
+      - ros-master
+    network_mode: host
+    privileged: true
+    tty: true
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+      - /dev/mem
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /dev/gpiomem:/dev/gpiomem
+    environment:
+      - ROS_MASTER_URI=http://master:11311
+      - ROS_IPV6=on
+
+  tortoisebot-ros1-slam-real:
     build: 
       context: .
       dockerfile: tortoisebot_ros1_slam
     network_mode: host
-    ipc: host
-    privileged: true
-    devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/mem
     environment:
-      - ROS_HOSTNAME=master
       - ROS_MASTER_URI=http://master:11311
       - ROS_IPV6=on
-    command: bash -c "source /catkin_ws/devel/setup.bash && roslaunch tortoisebot_slam mapping.launch"
-
+    depends_on:
+      - tortoisebot-ros1-real
