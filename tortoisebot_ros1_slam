@@ -51,6 +51,6 @@ WORKDIR /catkin_ws
 # Source the workspace every time a new shell is opened in the container
 RUN echo source /catkin_ws/devel/setup.bash >> ~/.bashrc
 
-# Set the entry point to start a bash shell
-#ENTRYPOINT ["/bin/bash", "-c", "roslaunch tortoisebot_slam mapping.launch"]
-RUN roslaunch tortoisebot_slam mapping.launch
+CMD ["source" "/opt/ros/$ROS_DISTRO/setup.bash"]
+CMD ["source" "/catkin_ws/devel/setup.bash"]
+CMD ["roslaunch" "tortoisebot_slam mapping.launch"]

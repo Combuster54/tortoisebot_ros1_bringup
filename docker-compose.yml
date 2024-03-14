@@ -11,6 +11,7 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-real:
+    image: ros1-real
     container_name: real
     build: 
       context: .
@@ -31,6 +32,7 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-slam-real:
+    image: ros1-real-slam
     container_name: slam
     build: 
       context: .
