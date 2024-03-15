@@ -3,7 +3,7 @@ version: '3'
 services:
 
   ros-master:
-    image: ros:noetic-ros-core
+    image: ros:noetic-ros-base
     command: stdbuf -o L roscore
     network_mode: "host"
     environment:
