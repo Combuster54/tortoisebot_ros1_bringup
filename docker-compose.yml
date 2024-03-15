@@ -1,9 +1,8 @@
 version: '3'
 
 services:
-
   ros-master:
-    image: ros:noetic-ros-base
+    image: ros:noetic-ros-core
     command: stdbuf -o L roscore
     network_mode: "host"
     environment:
@@ -12,19 +11,14 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-real:
-    image: ros1-real
-    container_name: real
-    build: 
-      context: .
-      dockerfile: tortoisebot_ros1_real
+    image: rgruberski/rgruberski-cp22:ros1-real
     depends_on:
       - ros-master
     network_mode: host
     privileged: true
     tty: true
     devices:
-      - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/mem
+      - /dev/ttyUSB0:/dev/ttyUSB0:rwm
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /dev/gpiomem:/dev/gpiomem
@@ -33,11 +27,7 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-slam-real:
-    image: ros1-real-slam
-    container_name: slam
-    build: 
-      context: .
-      dockerfile: tortoisebot_ros1_slam
+    image: rgruberski/rgruberski-cp22:ros1-real-slam
     network_mode: host
     environment:
       - ROS_MASTER_URI=http://master:11311
