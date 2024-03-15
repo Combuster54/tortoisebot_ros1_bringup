@@ -30,38 +30,38 @@ RUN apt-get update && apt-get install -y \
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc 
 
 # RUN mkdir -p /docker
-RUN mkdir -p /noetic_ws/src
+RUN mkdir -p /catkin_ws/src
 
-RUN git clone -b noetic --recursive https://github.com/rigbetellabs/tortoisebot.git /noetic_ws/src/tortoisebot
+RUN git clone -b noetic --recursive https://github.com/rigbetellabs/tortoisebot.git /catkin_ws/src/tortoisebot
 
 # RUN git clone https://github.com/rg-masterclass/docker.git /docker
 
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_control
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_gazebo
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_navigation
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_firmware
-RUN rm -rf /noetic_ws/src/tortoisebot/raspicam_node
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_description
-RUN rm -rf /noetic_ws/src/tortoisebot/ydlidar_ros
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_navigation
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
+RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
+RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
 
-# RUN mv /docker/tortoisebot /noetic_ws/src/
+# RUN mv /docker/tortoisebot /catkin_ws/src/
 # RUN rm -rf /docker
 
 ADD ros_entrypoint.sh /
 
-WORKDIR /noetic_ws
+WORKDIR /catkin_ws
 
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src -r -y
 
-COPY mapping.launch /noetic_ws/src/tortoisebot/tortoisebot_slam/launch/
+COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
 
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
 RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
-catkin_make --directory /noetic_ws -DCMAKE_BUILD_TYPE=Debug'
+catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
 
-RUN echo "source /noetic_ws/devel/setup.bash" >> /etc/bash.bashrc
+RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
 
 ENTRYPOINT ["bash", "/ros_entrypoint.sh"]
 CMD ["roslaunch", "tortoisebot_slam mapping.launch"]

@@ -27,30 +27,30 @@ RUN apt-get update && apt-get install -y git \
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc 
 
 RUN mkdir -p /docker
-RUN mkdir -p /noetic_ws/src
+RUN mkdir -p /catkin_ws/src
 
-RUN git clone --recursive https://github.com/rigbetellabs/tortoisebot.git /noetic_ws/src/tortoisebot
+RUN git clone --recursive https://github.com/rigbetellabs/tortoisebot.git /catkin_ws/src/tortoisebot
 
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_control
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_gazebo
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_navigation
-RUN rm -rf /noetic_ws/src/tortoisebot/tortoisebot_slam
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_navigation
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_slam
 
 ADD ros_entrypoint.sh /
 
-WORKDIR /noetic_ws
+WORKDIR /catkin_ws
 
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src -r -y
 
-COPY bringup.launch /noetic_ws/src/tortoisebot/tortoisebot_firmware/launch/
+COPY bringup.launch /catkin_ws/src/tortoisebot/tortoisebot_firmware/launch/
 
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
 RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
-catkin_make --directory /noetic_ws -DCMAKE_BUILD_TYPE=Debug'
+catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
 
-RUN echo "source /noetic_ws/devel/setup.bash" >> /etc/bash.bashrc
+RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
 
 ENTRYPOINT ["bash", "/ros_entrypoint.sh"]
 CMD ["roslaunch", "tortoisebot_firmware bringup.launch"]

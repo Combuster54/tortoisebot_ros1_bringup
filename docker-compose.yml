@@ -11,7 +11,10 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-real:
-    image: rgruberski/rgruberski-cp22:ros1-real
+    build: 
+      context: ./real
+      dockerfile: Dockerfile
+    image: real-ros1
     depends_on:
       - ros-master
     network_mode: host
@@ -27,7 +30,10 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-slam-real:
-    image: rgruberski/rgruberski-cp22:ros1-real-slam
+    build:    
+      context: ./slam
+      dockerfile: Dockerfile
+    image: real-slam
     network_mode: host
     environment:
       - ROS_MASTER_URI=http://master:11311
