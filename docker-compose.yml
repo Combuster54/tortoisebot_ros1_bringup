@@ -28,7 +28,7 @@ services:
     environment:
       - ROS_MASTER_URI=http://master:11311
       - ROS_IPV6=on
-
+      - DISPLAY=:1
   tortoisebot-ros1-slam-real:
     build:    
       context: ./slam
@@ -38,5 +38,7 @@ services:
     environment:
       - ROS_MASTER_URI=http://master:11311
       - ROS_IPV6=on
+      - DISPLAY=:1
+
     depends_on:
       - tortoisebot-ros1-real
