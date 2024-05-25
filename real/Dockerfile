@@ -1,6 +1,7 @@
 FROM ros:noetic
 
-RUN apt-get update && apt-get install -y git \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
     ros-noetic-joy \
     ros-noetic-teleop-twist-joy \
     ros-noetic-teleop-twist-keyboard \
