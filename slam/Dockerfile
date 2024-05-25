@@ -26,6 +26,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     python3-rpi.gpio
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+   python3-wstool \ 
+   python3-rosdep \ 
+   ninja-build stow
+
+
 # Make the prompt a little nicer
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc 
 
@@ -34,15 +40,27 @@ RUN mkdir -p /catkin_ws/src
 
 RUN git clone -b noetic --recursive https://github.com/rigbetellabs/tortoisebot.git /catkin_ws/src/tortoisebot
 
-# RUN git clone https://github.com/rg-masterclass/docker.git /docker
+RUN rosdep update
+RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
-RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
-RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_navigation
-RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
-RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
-RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
-RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
+RUN mkdir ~/catkin_ws/carto_ws
+RUN cd ~/catkin_ws/carto_ws
+RUN wstool init src
+RUN wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall
+RUN wstool update -t src
+RUN sudo rosdep init
+RUN rosdep update
+RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+# RUN git clone https://github.com/rg-masterclass/docker.git /docker
+#if you face a problem, do the following:
+
+
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
+#RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
+#RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
 
 # RUN mv /docker/tortoisebot /catkin_ws/src/
 # RUN rm -rf /docker
@@ -51,6 +69,7 @@ ADD ros_entrypoint.sh /
 
 WORKDIR /catkin_ws
 
+RUN sudo rosdep init
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src -r -y
 
