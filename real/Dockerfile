@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libvmmalloc-dev \
     libraspberrypi-bin \
     libraspberrypi-dev \
-    python3-dev
+    python3-dev \
     python3-rpi.gpio
 
 # Make the prompt a little nicer
