@@ -37,12 +37,18 @@ RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc
 # RUN mkdir -p /docker
 RUN mkdir -p /catkin_ws/src
 
+
+# Set the working directory
+WORKDIR /catkin_ws
+
 RUN git clone -b noetic --recursive https://github.com/rigbetellabs/tortoisebot.git /catkin_ws/src/tortoisebot
 
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN mkdir ~/carto_ws
+RUN mkdir ~/carto_ws/src
+# Set the working directory
+WORKDIR /catkin_ws
 RUN cd ~/carto_ws
 RUN wstool init src
 RUN wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall
