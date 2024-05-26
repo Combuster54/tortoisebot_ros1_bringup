@@ -52,8 +52,7 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 RUN mkdir -p /carto_ws/src
 
 # Set the working directory
-WORKDIR /catkin_ws
-RUN cd ~/carto_ws
+WORKDIR /carto_ws
 RUN wstool init src
 RUN wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall
 RUN wstool update -t src
@@ -61,14 +60,17 @@ RUN sudo rosdep init
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN cd ~/carto_ws/src
-RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.git
-RUN git clone https://github.com/ros-perception/pcl_msgs
-RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git
+RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.git /carto_ws/src/perception_plc
+RUN git clone https://github.com/ros-perception/pcl_msgs /carto_ws/src/pcl_msgs
+RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git /carto_ws/src/geometry2_python3
 
-RUN cd ~/carto_ws/
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
-RUN src/cartographer/scripts/install_abseil.sh
+#RUN src/cartographer/scripts/install_abseil.sh
+# Run the installation script for abseil
+RUN chmod +x /carto_ws/src/cartographer/scripts/install_abseil.sh && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && /carto_ws/src/cartographer/scripts/install_abseil.sh"
+
+
 RUN catkin_make_isolated --install --use-ninja -j4 -l4
 
 # RUN git clone https://github.com/rg-masterclass/docker.git /docker
