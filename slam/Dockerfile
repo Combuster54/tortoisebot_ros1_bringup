@@ -43,6 +43,9 @@ WORKDIR /catkin_ws
 
 RUN git clone -b noetic --recursive https://github.com/rigbetellabs/tortoisebot.git /catkin_ws/src/tortoisebot
 
+RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
@@ -74,6 +77,8 @@ RUN catkin_make_isolated --install --use-ninja -j4 -l4
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
 #RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
 #RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
 
