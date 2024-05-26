@@ -56,7 +56,7 @@ WORKDIR /carto_ws
 RUN wstool init src
 RUN wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall
 RUN wstool update -t src
-RUN sudo rosdep init
+#RUN sudo rosdep init
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
@@ -92,7 +92,7 @@ ADD ros_entrypoint.sh /
 
 WORKDIR /catkin_ws
 
-RUN sudo rosdep init
+#RUN sudo rosdep init
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src -r -y
 
