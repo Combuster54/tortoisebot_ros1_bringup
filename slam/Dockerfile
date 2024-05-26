@@ -49,7 +49,8 @@ RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
 RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN mkdir ~/carto_ws/src
+RUN mkdir -p /carto_ws/src
+
 # Set the working directory
 WORKDIR /catkin_ws
 RUN cd ~/carto_ws
