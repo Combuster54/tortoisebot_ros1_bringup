@@ -91,5 +91,5 @@ catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
 
 RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
 
-ENTRYPOINT ["bash", "/ros_entrypoint.sh"]
-CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
+ENTRYPOINT ["bash", "/overlay.sh"]
+#CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
