@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Make the prompt a little nicer
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc 
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
 # RUN mkdir -p /docker
 RUN mkdir -p /catkin_ws/src
