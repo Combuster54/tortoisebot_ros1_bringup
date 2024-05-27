@@ -49,7 +49,7 @@ RUN rosdep update
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 # Set the working directory
-WORKDIR /carto_ws
+#WORKDIR /carto_ws
 COPY custom.rosinstall /catkin_ws/carto_ws/src
 
 RUN wstool init src
