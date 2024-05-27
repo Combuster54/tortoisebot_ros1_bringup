@@ -97,6 +97,7 @@ RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/$ROS_DISTRO/setup.bash && cat
 COPY generate_map.launch /catkin_ws/carto_ws/src/cartographer_ros/cartographer_ros/launch
 
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
+ADD overlay.sh /
 
 ENTRYPOINT ["bash", "/overlay.sh"]
 CMD ["roslaunch", "cartographer_ros generate_map.launch"]
