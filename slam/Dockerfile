@@ -70,7 +70,8 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j1 -l1"
 
-RUN /bin/bash -c "source devel_isolated/setup.bash"
+RUN /bin/bash -c "cd /catkin_ws/carto_ws && source devel_isolated/setup.bash"
+
 
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
@@ -86,13 +87,11 @@ RUN /bin/bash -c "source devel_isolated/setup.bash"
 
 WORKDIR /catkin_ws
 
-RUN rm -rf build devel
+RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
+
 COPY generate_map.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch
 
-RUN catkin_make
-RUN source ~/catkin_ws/devel/setup.bash
-
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
+RUN /bin/bash -c "cd /catkin_ws && catkin_make && source /catkin_ws/devel/setup.bash"
 
 #ENTRYPOINT ["bash", "/overlay.sh"]
 CMD ["roslaunch", "tortoisebot_slam generate_map.launch"]
