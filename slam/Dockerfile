@@ -68,7 +68,7 @@ RUN src/cartographer/scripts/install_abseil.sh
 
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN catkin_make_isolated --install --use-ninja -j1 -l1
+RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j1 -l1"
 
 RUN source devel_isolated/setup.bash
 
