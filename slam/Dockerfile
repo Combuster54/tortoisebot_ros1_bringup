@@ -90,13 +90,13 @@ WORKDIR /catkin_ws
 # Clean the build and devel folders
 RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
 
-# Copy the generate_map.launch file
-COPY generate_map.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch
-
 # Build the workspace and source the setup script
 RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make && source devel/setup.bash"
 
+# Copy the generate_map.launch file
+COPY generate_map.launch /catkin_ws/carto_ws/src/cartographer_ros/cartographer_ros/launch
+
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
-#ENTRYPOINT ["bash", "/overlay.sh"]
-CMD ["roslaunch", "tortoisebot_slam generate_map.launch"]
+ENTRYPOINT ["bash", "/overlay.sh"]
+CMD ["roslaunch", "cartographer_ros generate_map.launch"]
