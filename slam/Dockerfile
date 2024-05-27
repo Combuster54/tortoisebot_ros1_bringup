@@ -94,7 +94,9 @@ RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
 COPY generate_map.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch
 
 # Build the workspace and source the setup script
-RUN /bin/bash -c "cd /catkin_ws && catkin_make && source devel/setup.bash"
+RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make && source devel/setup.bash"
+
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
 #ENTRYPOINT ["bash", "/overlay.sh"]
 CMD ["roslaunch", "tortoisebot_slam generate_map.launch"]
