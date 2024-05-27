@@ -68,6 +68,10 @@ RUN src/cartographer/scripts/install_abseil.sh
 
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
+# Copy the generate_map.launch file
+COPY generate_map.launch /catkin_ws/carto_ws/src/cartographer_ros/cartographer_ros/launch
+
+
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j1 -l1"
 
 RUN /bin/bash -c "cd /catkin_ws/carto_ws && source devel_isolated/setup.bash"
@@ -92,9 +96,6 @@ RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
 
 # Build the workspace and source the setup script
 RUN /bin/bash -c "cd /catkin_ws && source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make && source devel/setup.bash"
-
-# Copy the generate_map.launch file
-COPY generate_map.launch /catkin_ws/carto_ws/src/cartographer_ros/cartographer_ros/launch
 
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 ADD overlay.sh /
