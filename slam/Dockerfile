@@ -52,61 +52,61 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 WORKDIR /carto_ws
 COPY custom.rosinstall /catkin_ws/carto_ws/src
 
-# RUN wstool init src
-# RUN wstool merge -t src /catkin_ws/carto_ws/src/custom.rosinstall
-# RUN wstool update -t src
-# #RUN sudo rosdep init
-# RUN rosdep update
-# RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+RUN wstool init src
+RUN wstool merge -t src /catkin_ws/carto_ws/src/custom.rosinstall
+RUN wstool update -t src
+#RUN sudo rosdep init
+RUN rosdep update
+RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-# RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.git /carto_ws/src/perception_plc
-# RUN git clone https://github.com/ros-perception/pcl_msgs /carto_ws/src/pcl_msgs
-# RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git /carto_ws/src/geometry2_python3
+RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.git /carto_ws/src/perception_plc
+RUN git clone https://github.com/ros-perception/pcl_msgs /carto_ws/src/pcl_msgs
+RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git /carto_ws/src/geometry2_python3
 
-# #RUN src/cartographer/scripts/install_abseil.sh
-# # Run the installation script for abseil
-
-
-# RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+#RUN src/cartographer/scripts/install_abseil.sh
+# Run the installation script for abseil
 
 
-# RUN chmod +x /carto_ws/src/cartographer/scripts/install_abseil.sh && \
-#     /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && /carto_ws/src/cartographer/scripts/install_abseil.sh"
+RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 
-# RUN catkin_make_isolated --install --use-ninja -j4 -l4
+RUN chmod +x /carto_ws/src/cartographer/scripts/install_abseil.sh && \
+    /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && /carto_ws/src/cartographer/scripts/install_abseil.sh"
 
-# # RUN git clone https://github.com/rg-masterclass/docker.git /docker
-# #if you face a problem, do the following:
 
-# #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
-# #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
-# #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
-# #RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
-# #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+RUN catkin_make_isolated --install --use-ninja -j4 -l4
 
-# #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
-# #RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
+# RUN git clone https://github.com/rg-masterclass/docker.git /docker
+#if you face a problem, do the following:
 
-# # RUN mv /docker/tortoisebot /catkin_ws/src/
-# # RUN rm -rf /docker
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_firmware
+#RUN rm -rf /catkin_ws/src/tortoisebot/raspicam_node
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
 
-# ADD ros_entrypoint.sh /
+#RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_description
+#RUN rm -rf /catkin_ws/src/tortoisebot/ydlidar_ros
 
-# WORKDIR /catkin_ws
+# RUN mv /docker/tortoisebot /catkin_ws/src/
+# RUN rm -rf /docker
 
-# #RUN sudo rosdep init
-# RUN rosdep update
-# RUN rosdep install --from-paths src --ignore-src -r -y
+ADD ros_entrypoint.sh /
 
-# COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
+WORKDIR /catkin_ws
 
-# RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
+#RUN sudo rosdep init
+RUN rosdep update
+RUN rosdep install --from-paths src --ignore-src -r -y
 
-# RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
-# catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
+COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
 
-# RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
+RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
-# ENTRYPOINT ["bash", "/overlay.sh"]
-# #CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
+RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
+catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
+
+RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
+
+ENTRYPOINT ["bash", "/overlay.sh"]
+#CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
