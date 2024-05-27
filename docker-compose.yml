@@ -33,10 +33,10 @@ services:
 
 
   tortoisebot-ros1-slam-real:
-    build:    
-      context: ./slam
-      dockerfile: Dockerfile
-    image: real-slam
+    image: combuster54/tortoisebot:noetic-slam
+    # build:    
+    #   context: ./slam
+    #   dockerfile: Dockerfile
     network_mode: host
     environment:
       - ROS_MASTER_URI=http://master:11311
