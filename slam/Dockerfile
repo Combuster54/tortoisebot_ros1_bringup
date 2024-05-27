@@ -63,7 +63,7 @@ RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.
 RUN git clone https://github.com/ros-perception/pcl_msgs /carto_ws/src/pcl_msgs
 RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git /carto_ws/src/geometry2_python3
 
-#RUN src/cartographer/scripts/install_abseil.sh
+RUN src/cartographer/scripts/install_abseil.sh
 # Run the installation script for abseil
 
 
