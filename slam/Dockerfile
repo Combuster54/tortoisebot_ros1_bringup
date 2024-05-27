@@ -56,7 +56,7 @@ WORKDIR /carto_ws
 COPY custom.rosinstall /catkin_ws/carto_ws/src
 
 RUN wstool init src
-RUN wstool merge -t src /catkin_ws/carto_ws/src/custom.rosinstall
+RUN wstool merge -t src /carto_ws/src/custom.rosinstall
 RUN wstool update -t src
 #RUN sudo rosdep init
 RUN rosdep update
