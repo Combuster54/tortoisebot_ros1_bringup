@@ -64,9 +64,15 @@ RUN git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.
 RUN git clone https://github.com/ros-perception/pcl_msgs /carto_ws/src/pcl_msgs
 RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git /carto_ws/src/geometry2_python3
 
-RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 #RUN src/cartographer/scripts/install_abseil.sh
 # Run the installation script for abseil
+
+# Remove the line <depend>libabsl-dev</depend> from package.xml
+RUN sed -i '/<depend>libabsl-dev<\/depend>/d' /carto_ws/src/cartographer/package.xml
+
+RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+
+
 RUN chmod +x /carto_ws/src/cartographer/scripts/install_abseil.sh && \
     /bin/bash -c "source /opt/ros/${ROS_DISTRO}/setup.bash && /carto_ws/src/cartographer/scripts/install_abseil.sh"
 
