@@ -70,7 +70,7 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
 RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j1 -l1"
 
-RUN source devel_isolated/setup.bash
+RUN /bin/bash -c "source devel_isolated/setup.bash"
 
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_control
 #RUN rm -rf /catkin_ws/src/tortoisebot/tortoisebot_gazebo
