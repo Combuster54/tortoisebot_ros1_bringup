@@ -56,7 +56,7 @@ WORKDIR /carto_ws
 COPY custom.rosinstall /catkin_ws/carto_ws/src
 
 RUN wstool init src
-RUN wstool merge -t src /carto_ws/src/custom.rosinstall
+RUN wstool merge -t src /catkin_ws/carto_ws/src/custom.rosinstall
 RUN wstool update -t src
 #RUN sudo rosdep init
 RUN rosdep update
@@ -68,9 +68,6 @@ RUN git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.g
 
 #RUN src/cartographer/scripts/install_abseil.sh
 # Run the installation script for abseil
-
-
-RUN sed -i '/<depend>libabsl-dev<\/depend>/d' /carto_ws/src/cartographer/package.xml
 
 
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
