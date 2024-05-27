@@ -35,10 +35,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN echo "PS1='${debian_chroot:+($debian_chroot)}\u@:\w\$ '" >> /etc/bash.bashrc 
 
 # RUN mkdir -p /docker
-RUN mkdir -p /catkin_ws/src
-RUN mkdir -p /catkin_ws/carto_ws
-
-
+RUN mkdir -p /catkin_ws/carto_ws/src
 
 # Set the working directory
 WORKDIR /catkin_ws
