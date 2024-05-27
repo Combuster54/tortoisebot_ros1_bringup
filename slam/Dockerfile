@@ -87,10 +87,13 @@ RUN /bin/bash -c "cd /catkin_ws/carto_ws && source devel_isolated/setup.bash"
 
 WORKDIR /catkin_ws
 
+# Clean the build and devel folders
 RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
 
+# Copy the generate_map.launch file
 COPY generate_map.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch
 
+# Build the workspace and source the setup script
 RUN /bin/bash -c "cd /catkin_ws && catkin_make && source devel/setup.bash"
 
 #ENTRYPOINT ["bash", "/overlay.sh"]
