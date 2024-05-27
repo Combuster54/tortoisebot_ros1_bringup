@@ -72,7 +72,7 @@ RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 COPY generate_map.launch /catkin_ws/carto_ws/src/cartographer_ros/cartographer_ros/launch
 
 
-RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j4 -l4"
+RUN /bin/bash -c "source /opt/ros/$ROS_DISTRO/setup.bash && catkin_make_isolated --install --use-ninja -j1 -l1"
 
 RUN /bin/bash -c "cd /catkin_ws/carto_ws && source devel_isolated/setup.bash"
 
