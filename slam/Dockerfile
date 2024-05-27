@@ -70,7 +70,7 @@ RUN src/cartographer/scripts/install_abseil.sh
 
 RUN rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
 
-RUN catkin_make_isolated --install --use-ninja -j4 -l4
+#RUN catkin_make_isolated --install --use-ninja -j4 -l4
 
 # RUN git clone https://github.com/rg-masterclass/docker.git /docker
 #if you face a problem, do the following:
@@ -87,22 +87,22 @@ RUN catkin_make_isolated --install --use-ninja -j4 -l4
 # RUN mv /docker/tortoisebot /catkin_ws/src/
 # RUN rm -rf /docker
 
-ADD overlay.sh /
+# ADD overlay.sh /
 
-WORKDIR /catkin_ws
+# WORKDIR /catkin_ws
 
-#RUN sudo rosdep init
-RUN rosdep update
-RUN rosdep install --from-paths src --ignore-src -r -y
+# #RUN sudo rosdep init
+# RUN rosdep update
+# RUN rosdep install --from-paths src --ignore-src -r -y
 
-COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
+# COPY mapping.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch/
 
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
+# RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /etc/bash.bashrc
 
-RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
-catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
+# RUN /bin/bash -c 'source /opt/ros/$ROS_DISTRO/setup.bash &&\
+# catkin_make --directory /catkin_ws -DCMAKE_BUILD_TYPE=Debug'
 
-RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
+# RUN echo "source /catkin_ws/devel/setup.bash" >> /etc/bash.bashrc
 
-ENTRYPOINT ["bash", "/overlay.sh"]
-#CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
+# ENTRYPOINT ["bash", "/overlay.sh"]
+# #CMD ["roslaunch", "tortoisebot_slam mapping.launch"]
