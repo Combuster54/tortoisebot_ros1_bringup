@@ -11,10 +11,11 @@ services:
       - ROS_IPV6=on
 
   tortoisebot-ros1-real:
-    build: 
-      context: ./real
-      dockerfile: Dockerfile
-    image: real-ros1
+    image: combuster54/tortoisebot:noetic-bringup
+    # build: 
+    #   context: ./real
+    #   dockerfile: Dockerfile
+    #image: real-ros1
     depends_on:
       - ros-master
     network_mode: host
@@ -29,6 +30,8 @@ services:
       - ROS_MASTER_URI=http://master:11311
       - ROS_IPV6=on
       - DISPLAY=:1
+
+
   tortoisebot-ros1-slam-real:
     build:    
       context: ./slam

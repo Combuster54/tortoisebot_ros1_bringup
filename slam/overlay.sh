@@ -3,8 +3,10 @@ set -e
 
 # setup ros environment
 source /opt/ros/$ROS_DISTRO/setup.bash
-source /catkin_ws/devel/setup.bash
-source /carto_ws/devel/setup.bash
+cd /catkin_ws/carto_ws
+source devel_isolated/setup.bash
+cd ..
+source devel/setup.bash
 
 sleep 1s
 
