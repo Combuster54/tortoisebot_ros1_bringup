@@ -91,7 +91,7 @@ RUN /bin/bash -c "cd /catkin_ws && rm -rf build devel"
 
 COPY generate_map.launch /catkin_ws/src/tortoisebot/tortoisebot_slam/launch
 
-RUN /bin/bash -c "cd /catkin_ws && catkin_make && source /catkin_ws/devel/setup.bash"
+RUN /bin/bash -c "cd /catkin_ws && catkin_make && source devel/setup.bash"
 
 #ENTRYPOINT ["bash", "/overlay.sh"]
 CMD ["roslaunch", "tortoisebot_slam generate_map.launch"]
